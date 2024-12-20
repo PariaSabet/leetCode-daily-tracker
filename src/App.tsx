@@ -1,16 +1,28 @@
 import { useState, useEffect } from 'react'
+import Calendar from './components/calender'
 import { ProblemForm } from './components/ProblemForm'
 import { ProblemList } from './components/ProblemList'
 import { problemsService } from './services/problems'
 import type { Problem, NewProblem } from './types/database.types'
+import { fetchStreakData, addStreakDate } from './lib/supabase'
+import './App.css'
 
 function App() {
   const [problems, setProblems] = useState<Problem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+  const [streakDates, setStreakDates] = useState<Date[]>([]);
+
+  console.log(streakDates)
+
   useEffect(() => {
     loadProblems();
+    const loadStreakData = async () => {
+      const data = await fetchStreakData();
+      if (data) {
+        setStreakDates(data.map((entry: { date: string }) => new Date(entry.date)));
+      }
+    };
+    loadStreakData();
   }, []);
 
   const loadProblems = async () => {
@@ -20,8 +32,6 @@ function App() {
     } catch (err) {
       setError('Failed to load problems');
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -32,18 +42,17 @@ function App() {
         date_completed: new Date().toISOString(),
       });
       setProblems(prev => [newProblem, ...prev]);
+
+      await addStreakDate(new Date());
+      setStreakDates(prev => [...prev, new Date()]);
     } catch (err) {
       setError('Failed to add problem');
       console.error(err);
     }
   };
 
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  }
-
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="app-container">
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto py-6 px-4">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -51,7 +60,7 @@ function App() {
           </h1>
         </div>
       </header>
-
+      <Calendar streakDates={streakDates} />
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
