@@ -34,7 +34,7 @@ const Calendar: React.FC<CalendarProps> = ({ streakDates }) => {
   };
 
   return (
-    <div className="calendar-container">
+    <div className="calendar-container bg-white/20 backdrop-blur-md p-3">
       <div className="calendar-header">
         <button onClick={handlePrevMonth}>&lt;</button>
         <h2 className="month-name">{monthName} {year}</h2>
