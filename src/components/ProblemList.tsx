@@ -29,7 +29,7 @@ export function ProblemList({ problems }: ProblemListProps) {
       {problems.map((problem) => (
         <div
           key={problem.id}
-          className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+          className="border rounded-lg p-4 hover:bg-gray-50/25 transition-colors"
         >
           <div className="flex justify-between items-start">
             <div>
