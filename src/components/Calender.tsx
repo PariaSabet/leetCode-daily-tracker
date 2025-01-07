@@ -5,7 +5,7 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ streakDates }) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState<Date>(() => new Date());
 
   const monthName = currentMonth.toLocaleString('default', { month: 'long' });
   const year = currentMonth.getFullYear();
@@ -13,8 +13,10 @@ const Calendar: React.FC<CalendarProps> = ({ streakDates }) => {
   const endOfMonth = new Date(year, currentMonth.getMonth() + 1, 0);
 
   const daysInMonth = [];
-  for (let day = startOfMonth; day <= endOfMonth; day.setDate(day.getDate() + 1)) {
-    daysInMonth.push(new Date(day));
+  const monthStart = new Date(startOfMonth);
+  while (monthStart <= endOfMonth) {
+    daysInMonth.push(new Date(monthStart));
+    monthStart.setDate(monthStart.getDate() + 1);
   }
 
   const isStreakDate = (date: Date) => {

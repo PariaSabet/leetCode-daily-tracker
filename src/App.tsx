@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Calendar from './components/calender'
+import Calendar from './components/Calender'
 import { ProblemForm } from './components/ProblemForm'
 import { ProblemList } from './components/ProblemList'
 import { problemsService } from './services/problems'
@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="bg-white shadow">
+      <header className="shadow">
         <div className="max-w-7xl mx-auto py-6 px-4">
           <h1 className="text-3xl font-bold text-gray-900">
             LeetCode Daily Tracker
@@ -64,11 +64,11 @@ function App() {
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white shadow rounded-lg p-6">
+            <div className="bg-white/20 backdrop-blur-md shadow rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-4">Add New Problem</h2>
               <ProblemForm onSubmit={handleAddProblem} />
             </div>
-            <div className="bg-white shadow rounded-lg p-6">
+            <div className="bg-white/20 backdrop-blur-md shadow rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-4">Recent Problems</h2>
               <ProblemList problems={problems} />
             </div>
